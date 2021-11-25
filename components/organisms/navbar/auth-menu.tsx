@@ -33,7 +33,7 @@ const AuthMenu = (props: Props) => {
               id="dropdownMenuLink"
               data-bs-toggle="dropdown"
               aria-expanded="false">
-              <Image src="/img/avatar-1.png" width={40} height={40} alt={''} />
+              <Image src={'/img/avatar-1.png'} width={40} height={40} alt={''} />
             </a>
 
             <ul

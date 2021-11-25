@@ -37,13 +37,13 @@ const Navbar = () => {
       <nav className="navbar navbar-expand-lg navbar-light bg-light bg-white pt-lg-40 pb-lg-40 pt-30 pb-50">
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
-            <Image src="/icon/logo.svg" width={60} height={60} />
+            <Image src={'/icon/logo.svg'} width={60} height={60} />
           </a>
           <ToggleMenu />
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto text-lg gap-lg-0 gap-2">
-              {listMenu.map((item: any, idx: number) => (
-                <Menu key={idx} title={item.title} active={item.active} />
+              {listMenu.map((item: any, i: number) => (
+                <Menu key={i} title={item.title} active={item.active} />
               ))}
               <AuthMenu isLogin={false} />
             </ul>
