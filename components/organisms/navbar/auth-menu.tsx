@@ -10,7 +10,7 @@ const AuthMenu = (props: Props) => {
 
   return (
     <>
-      {!isLogin && (
+      {!isLogin ? (
         <li className="nav-item my-auto">
           <Link href={'/sign-in'}>
             <a
@@ -20,9 +20,7 @@ const AuthMenu = (props: Props) => {
             </a>
           </Link>
         </li>
-      )}
-
-      {isLogin && (
+      ) : (
         <li className="nav-item my-auto dropdown d-flex">
           <div className="vertical-line d-lg-block d-none"></div>
           <div>
@@ -33,7 +31,12 @@ const AuthMenu = (props: Props) => {
               id="dropdownMenuLink"
               data-bs-toggle="dropdown"
               aria-expanded="false">
-              <Image src={'/img/avatar-1.png'} width={40} height={40} alt={''} />
+              <Image
+                src={'/img/avatar-1.png'}
+                width={40}
+                height={40}
+                alt={''}
+              />
             </a>
 
             <ul
