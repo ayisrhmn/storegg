@@ -1,5 +1,5 @@
-import cx from 'classnames';
 import Link from 'next/link';
+import cx from 'classnames';
 
 interface Props {
   title: string;
@@ -10,7 +10,7 @@ interface Props {
 const Menu = (props: Partial<Props>) => {
   const {title, active, href = '/'} = props;
 
-  const classTitle = cx({
+  const classActive = cx({
     'nav-link': true,
     active,
   });
@@ -18,7 +18,7 @@ const Menu = (props: Partial<Props>) => {
   return (
     <li className="nav-item my-auto">
       <Link href={href}>
-        <a className={classTitle} aria-current="page">
+        <a className={classActive} aria-current="page">
           {title}
         </a>
       </Link>
