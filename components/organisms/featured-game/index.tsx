@@ -3,27 +3,27 @@ import GameItem from '../../molecules/game-item';
 const FeaturedGame = () => {
   const listGame = [
     {
-      thumbnail: 'Thumbnail-1',
+      thumbnail: '/img/Thumbnail-1.png',
       title: 'Super Mechs',
       platform: 'Mobile',
     },
     {
-      thumbnail: 'Thumbnail-2',
+      thumbnail: '/img/Thumbnail-2.png',
       title: 'Call of Duty: Modern',
       platform: 'Mobile',
     },
     {
-      thumbnail: 'Thumbnail-3',
+      thumbnail: '/img/Thumbnail-3.png',
       title: 'Mobile Legends',
       platform: 'Mobile',
     },
     {
-      thumbnail: 'Thumbnail-4',
+      thumbnail: '/img/Thumbnail-4.png',
       title: 'Clash of Clans',
       platform: 'Mobile',
     },
     {
-      thumbnail: 'Thumbnail-5',
+      thumbnail: '/img/Thumbnail-5.png',
       title: 'Valorant',
       platform: 'Mobile',
     },

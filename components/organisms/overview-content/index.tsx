@@ -4,7 +4,7 @@ import TableRow from './table-row';
 const OverviewContent = () => {
   const dataTable = [
     {
-      image: 'overview-1',
+      image: '/img/overview-1.png',
       game: 'Mobile Legends: The New Battle 2021',
       category: 'Desktop',
       item: 200,
@@ -12,7 +12,7 @@ const OverviewContent = () => {
       status: 'pending',
     },
     {
-      image: 'overview-2',
+      image: '/img/overview-2.png',
       game: 'Call of Duty: Modern',
       category: 'Desktop',
       item: 550,
@@ -20,7 +20,7 @@ const OverviewContent = () => {
       status: 'success',
     },
     {
-      image: 'overview-3',
+      image: '/img/overview-3.png',
       game: 'Clash of Clans',
       category: 'Mobile',
       item: 100,
@@ -28,7 +28,7 @@ const OverviewContent = () => {
       status: 'failed',
     },
     {
-      image: 'overview-4',
+      image: '/img/overview-4.png',
       game: 'The Royal Game',
       category: 'Desktop',
       item: 225,
@@ -47,17 +47,17 @@ const OverviewContent = () => {
           </p>
           <div className="main-content">
             <div className="row">
-              <Category icon={'ic-desktop'} total={18000500}>
+              <Category icon={'/icon/ic-desktop.svg'} total={18000500}>
                 Game
                 <br />
                 Desktop
               </Category>
-              <Category icon={'ic-mobile'} total={8455000}>
+              <Category icon={'/icon/ic-mobile.svg'} total={8455000}>
                 Game
                 <br />
                 Mobile
               </Category>
-              <Category icon={'ic-other-categories'} total={5000000}>
+              <Category icon={'/icon/ic-other-categories.svg'} total={5000000}>
                 Other
                 <br />
                 Categories

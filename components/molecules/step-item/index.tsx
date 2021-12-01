@@ -1,4 +1,4 @@
-interface Props {
+export interface Props {
   icon: string;
   title: string;
   desc1: string;
@@ -12,7 +12,7 @@ const StepItem = (props: Props) => {
     <div className="col-lg-4">
       <div className="card feature-card border-0">
         <img
-          src={`/icon/${icon}.svg`}
+          src={icon}
           className="mb-30"
           width={80}
           height={80}

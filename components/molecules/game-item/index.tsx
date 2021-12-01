@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-interface Props {
+export interface Props {
   href?: string;
   thumbnail: string;
   title: string;
@@ -18,7 +18,7 @@ const GameItem = (props: Props) => {
           <div className="blur-sharp">
             <Image
               className={'thumbnail'}
-              src={`/img/${thumbnail}.png`}
+              src={thumbnail}
               width={205}
               height={270}
               alt={'thumbnail'}

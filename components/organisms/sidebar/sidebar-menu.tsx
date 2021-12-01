@@ -9,7 +9,7 @@ interface Props {
   active?: boolean;
 }
 
-const SidebarMenu = (props: Partial<Props>) => {
+const SidebarMenu = (props: Props) => {
   const {icon, href = '/member', title, active} = props;
 
   const classActive = cx({
@@ -21,7 +21,7 @@ const SidebarMenu = (props: Partial<Props>) => {
   return (
     <div className={classActive}>
       <div className="me-3">
-        <Image src={`/icon/${icon}.svg`} width={25} height={25} />
+        <Image src={icon} width={25} height={25} />
       </div>
       <p className="item-title m-0">
         <Link href={href}>
