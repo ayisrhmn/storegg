@@ -1,6 +1,41 @@
+import React from 'react';
 import Link from 'next/link';
+import {useRouter} from 'next/router';
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SignUpForm = () => {
+  const [name, setName] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+
+  const router = useRouter();
+
+  const onSubmit = () => {
+    const userForm = {
+      name,
+      email,
+      password,
+    };
+
+    const checkEmailFormat = new RegExp(
+      /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g,
+    ).test(email);
+
+    if (name.length === 0) {
+      toast.error('Field Full Name must be filled!');
+    } else if (email.length === 0) {
+      toast.error('Field Email must be filled!');
+    } else if (!checkEmailFormat) {
+      toast.error('Bad email format!');
+    } else if (password.length === 0) {
+      toast.error('Field Password must be filled!');
+    } else {
+      localStorage.setItem('user-form', JSON.stringify(userForm));
+      router.push('/sign-up-photo');
+    }
+  };
+
   return (
     <>
       <h2 className="text-4xl fw-bold color-palette-1 mb-10">Sign Up</h2>
@@ -20,6 +55,9 @@ const SignUpForm = () => {
           name="name"
           aria-describedby="name"
           placeholder="Enter your name"
+          value={name}
+          onChange={(val) => setName(val.target.value)}
+          required
         />
       </div>
       <div className="pt-30">
@@ -35,6 +73,9 @@ const SignUpForm = () => {
           name="email"
           aria-describedby="email"
           placeholder="Enter your email address"
+          value={email}
+          onChange={(val) => setEmail(val.target.value)}
+          required
         />
       </div>
       <div className="pt-30">
@@ -50,16 +91,18 @@ const SignUpForm = () => {
           name="password"
           aria-describedby="password"
           placeholder="Your password"
+          value={password}
+          onChange={(val) => setPassword(val.target.value)}
+          required
         />
       </div>
       <div className="button-group d-flex flex-column mx-auto pt-50">
-        <Link href={'/sign-up-photo'}>
-          <a
-            className="btn btn-sign-up fw-medium text-lg text-white rounded-pill mb-16"
-            role="button">
-            Continue
-          </a>
-        </Link>
+        <button
+          type="button"
+          className="btn btn-sign-up fw-medium text-lg text-white rounded-pill mb-16"
+          onClick={onSubmit}>
+          Continue
+        </button>
         {/* <button type="submit" className="btn btn-sign-up fw-medium text-lg text-white rounded-pill mb-16"
                         role="button">Continue</button> */}
         <Link href={'/sign-in'}>
@@ -70,6 +113,7 @@ const SignUpForm = () => {
           </a>
         </Link>
       </div>
+      <ToastContainer />
     </>
   );
 };

@@ -1,6 +1,8 @@
 import React from 'react';
 import GameItem from '../../molecules/game-item';
 import {getFeaturedGame} from '../../../services/player';
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const FeaturedGame = () => {
   const [gameList, setGameList] = React.useState([]) as any;
@@ -12,7 +14,13 @@ const FeaturedGame = () => {
   }, []);
 
   const getData = async () => {
-    await getFeaturedGame().then((res) => setGameList(res));
+    await getFeaturedGame().then((res) => {
+      if (res.error) {
+        toast.error(res.message);
+      } else {
+        setGameList(res.data);
+      }
+    });
   };
 
   return (
@@ -36,6 +44,7 @@ const FeaturedGame = () => {
           ))}
         </div>
       </div>
+      <ToastContainer />
     </section>
   );
 };
