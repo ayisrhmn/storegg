@@ -1,33 +1,19 @@
+import React from 'react';
 import GameItem from '../../molecules/game-item';
+import {getFeaturedGame} from '../../../services/player';
 
 const FeaturedGame = () => {
-  const listGame = [
-    {
-      thumbnail: 'Thumbnail-1',
-      title: 'Super Mechs',
-      platform: 'Mobile',
-    },
-    {
-      thumbnail: 'Thumbnail-2',
-      title: 'Call of Duty: Modern',
-      platform: 'Mobile',
-    },
-    {
-      thumbnail: 'Thumbnail-3',
-      title: 'Mobile Legends',
-      platform: 'Mobile',
-    },
-    {
-      thumbnail: 'Thumbnail-4',
-      title: 'Clash of Clans',
-      platform: 'Mobile',
-    },
-    {
-      thumbnail: 'Thumbnail-5',
-      title: 'Valorant',
-      platform: 'Mobile',
-    },
-  ];
+  const [gameList, setGameList] = React.useState([]) as any;
+
+  React.useEffect(() => {
+    getData();
+
+    return () => {};
+  }, []);
+
+  const getData = async () => {
+    await getFeaturedGame().then((res) => setGameList(res));
+  };
 
   return (
     <section className="featured-game pt-50 pb-50">
@@ -39,12 +25,13 @@ const FeaturedGame = () => {
         <div
           className="d-flex flex-row flex-lg-wrap overflow-setting justify-content-lg-between gap-lg-3 gap-4"
           data-aos="fade-up">
-          {listGame.map((item: any, i: number) => (
+          {gameList.map((item: any, i: number) => (
             <GameItem
               key={i}
+              id={item._id}
               thumbnail={item.thumbnail}
-              title={item.title}
-              platform={item.platform}
+              title={item.gameName}
+              platform={item.category.name}
             />
           ))}
         </div>

@@ -3,19 +3,19 @@ import StepItem from '../../molecules/step-item';
 const TransactionStep = () => {
   const contentStep = [
     {
-      icon: 'step-1',
+      icon: '/icon/step-1.svg',
       title: '1. Start',
       desc1: 'Pilih salah satu game',
       desc2: 'yang ingin kamu top up',
     },
     {
-      icon: 'step-2',
+      icon: '/icon/step-2.svg',
       title: '2. Fill Up',
       desc1: 'Top up sesuai dengan',
       desc2: 'nominal yang sudah tersedia',
     },
     {
-      icon: 'step-3',
+      icon: '/icon/step-3.svg',
       title: '3. Be a Winner',
       desc1: 'Siap digunakan untuk',
       desc2: 'improve permainan kamu',

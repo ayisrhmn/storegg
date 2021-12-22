@@ -1,4 +1,4 @@
-interface Props {
+export interface Props {
   label: string;
   type: string;
   name: string;
