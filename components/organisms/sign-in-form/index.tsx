@@ -1,6 +1,43 @@
+import React from 'react';
 import Link from 'next/link';
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {setSignIn} from '../../../services/auth';
+import {useRouter} from 'next/router';
 
 const SignInForm = () => {
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+
+  const router = useRouter();
+
+  const onSubmit = async () => {
+    const data = {
+      email,
+      password,
+    };
+
+    const checkEmailFormat = new RegExp(
+      /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g,
+    ).test(email);
+
+    if (email.length === 0) {
+      toast.error('Field Email must be filled!');
+    } else if (!checkEmailFormat) {
+      toast.error('Bad email format!');
+    } else if (password.length === 0) {
+      toast.error('Field Password must be filled!');
+    } else {
+      await setSignIn(data).then((res) => {
+        if (res.error) {
+          toast.error(res.message);
+        } else {
+          router.push('/');
+        }
+      });
+    }
+  };
+
   return (
     <>
       <h2 className="text-4xl fw-bold color-palette-1 mb-10">Sign In</h2>
@@ -20,6 +57,9 @@ const SignInForm = () => {
           name="email"
           aria-describedby="email"
           placeholder="Enter your email address"
+          value={email}
+          onChange={(val) => setEmail(val.target.value)}
+          required
         />
       </div>
       <div className="pt-30">
@@ -35,16 +75,18 @@ const SignInForm = () => {
           name="password"
           aria-describedby="password"
           placeholder="Your password"
+          value={password}
+          onChange={(val) => setPassword(val.target.value)}
+          required
         />
       </div>
       <div className="button-group d-flex flex-column mx-auto pt-50">
-        <Link href={'/member'}>
-          <a
-            className="btn btn-sign-in fw-medium text-lg text-white rounded-pill mb-16"
-            role="button">
-            Continue to Sign In
-          </a>
-        </Link>
+        <button
+          type="button"
+          className="btn btn-sign-in fw-medium text-lg text-white rounded-pill mb-16"
+          onClick={onSubmit}>
+          Continue to Sign In
+        </button>
         {/* <button type="submit"
                                 className="btn btn-sign-in fw-medium text-lg text-white rounded-pill mb-16"
                                 role="button">Continue to Sign In</button> */}
@@ -56,6 +98,7 @@ const SignInForm = () => {
           </a>
         </Link>
       </div>
+      <ToastContainer />
     </>
   );
 };

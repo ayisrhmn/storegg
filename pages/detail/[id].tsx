@@ -5,6 +5,8 @@ import Navbar from '../../components/organisms/navbar';
 import TopUpForm from '../../components/organisms/topup-form';
 import TopUpItem from '../../components/organisms/topup-item';
 import {getDetailVoucher} from '../../services/player';
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Detail = () => {
   const {query, isReady} = useRouter();
@@ -19,7 +21,13 @@ const Detail = () => {
   }, [isReady]);
 
   const getData = async (id: any) => {
-    await getDetailVoucher(id).then((res) => setVoucherDetail(res));
+    await getDetailVoucher(id).then((res) => {
+      if (res.error) {
+        toast.error(res.message);
+      } else {
+        setVoucherDetail(res.data);
+      }
+    });
   };
 
   return (
@@ -61,6 +69,7 @@ const Detail = () => {
         </div>
       </section>
       <Footer />
+      <ToastContainer />
     </>
   );
 };
