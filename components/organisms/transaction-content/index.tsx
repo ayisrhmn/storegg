@@ -1,41 +1,36 @@
+import React from 'react';
+import NumberFormat from 'react-number-format';
+import {getHistory} from '../../../services/member';
 import ButtonTab from './button-tab';
 import TableRow from './table-row';
+import {toast} from 'react-toastify';
 
 const TransactionContent = () => {
-  const dataTable = [
-    {
-      image: '/img/overview-1.png',
-      game: 'Mobile Legends: The New Battle 2021',
-      category: 'Desktop',
-      item: 200,
-      price: 290000,
-      status: 'pending',
-    },
-    {
-      image: '/img/overview-2.png',
-      game: 'Call of Duty: Modern',
-      category: 'Desktop',
-      item: 550,
-      price: 740000,
-      status: 'success',
-    },
-    {
-      image: '/img/overview-3.png',
-      game: 'Clash of Clans',
-      category: 'Mobile',
-      item: 100,
-      price: 120000,
-      status: 'failed',
-    },
-    {
-      image: '/img/overview-4.png',
-      game: 'The Royal Game',
-      category: 'Desktop',
-      item: 225,
-      price: 200000,
-      status: 'pending',
-    },
-  ];
+  const [total, setTotal] = React.useState(0) as any;
+  const [data, setData] = React.useState([]) as any;
+  const [tab, setTab] = React.useState('all');
+
+  React.useEffect(() => {
+    getData('all');
+
+    return () => {};
+  }, []);
+
+  const getData = async (val: any) => {
+    await getHistory(val).then((res) => {
+      if (res.error) {
+        toast.error(res.message);
+      } else {
+        setTotal(res.data.total);
+        setData(res.data.data);
+      }
+    });
+  };
+  
+  const onTabClick = (val: any) => {
+    setTab(val);
+    getData(val);
+  };
 
   return (
     <main className="main-wrapper">
@@ -45,17 +40,38 @@ const TransactionContent = () => {
         </h2>
         <div className="mb-30">
           <p className="text-lg color-palette-2 mb-12">You’ve spent</p>
-          <h3 className="text-5xl fw-medium color-palette-1">
-            Rp 4.518.000.500
-          </h3>
+          <NumberFormat
+            displayType={'text'}
+            prefix={'Rp '}
+            thousandSeparator={'.'}
+            decimalSeparator={','}
+            value={total}
+            className={'text-5xl fw-medium color-palette-1'}
+          />
         </div>
         <div className="row mt-30 mb-20">
           <div className="col-lg-12 col-12 main-content">
             <div id="list_status_title">
-              <ButtonTab title={'All Trx'} active={true} />
-              <ButtonTab title={'Success'} active={false} />
-              <ButtonTab title={'Pending'} active={false} />
-              <ButtonTab title={'Failed'} active={false} />
+              <ButtonTab
+                title={'All Trx'}
+                active={tab === 'all'}
+                onClick={() => onTabClick('all')}
+              />
+              <ButtonTab
+                title={'Success'}
+                active={tab === 'success'}
+                onClick={() => onTabClick('success')}
+              />
+              <ButtonTab
+                title={'Pending'}
+                active={tab === 'pending'}
+                onClick={() => onTabClick('pending')}
+              />
+              <ButtonTab
+                title={'Failed'}
+                active={tab === 'failed'}
+                onClick={() => onTabClick('failed')}
+              />
             </div>
           </div>
         </div>
@@ -77,14 +93,14 @@ const TransactionContent = () => {
                 </tr>
               </thead>
               <tbody id="list_status_item">
-                {dataTable.map((item: any, i: number) => (
+                {data.map((item: any, i: number) => (
                   <TableRow
                     key={i}
-                    image={item.image}
-                    game={item.game}
-                    category={item.category}
-                    item={item.item}
-                    price={item.price}
+                    image={item.historyVoucherTopUp?.thumbnail}
+                    game={item.historyVoucherTopUp?.gameName}
+                    category={item.historyVoucherTopUp?.category}
+                    item={`${item.historyVoucherTopUp?.coinQty} ${item.historyVoucherTopUp?.coinName}`}
+                    price={item.value}
                     status={item.status}
                   />
                 ))}

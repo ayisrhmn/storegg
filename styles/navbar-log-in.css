@@ -68,3 +68,12 @@
 
     /*  */
 }
+
+.avatar-img {
+    object-fit: cover;
+    border-radius: 100%;
+}
+
+.logout {
+    cursor: pointer;
+}

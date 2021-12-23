@@ -48,7 +48,7 @@ const Navbar = () => {
               {listMenu.map((item: any, i: number) => (
                 <Menu key={i} title={item.title} active={item.active} />
               ))}
-              <AuthMenu isLogin={false} />
+              <AuthMenu />
             </ul>
           </div>
         </div>

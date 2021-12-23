@@ -1,4 +1,3 @@
-import axios from 'axios';
 import {callAPI} from '../config/api';
 
 const ROOT_API = process.env.NEXT_PUBLIC_API;
@@ -27,5 +26,16 @@ export const getCategory = async () => {
   return callAPI({
     url,
     method: 'GET',
+  });
+};
+
+export const setCheckout = async (data: any) => {
+  const url = `${ROOT_API}/player/checkout`;
+
+  return callAPI({
+    url,
+    method: 'POST',
+    data,
+    token: true,
   });
 };

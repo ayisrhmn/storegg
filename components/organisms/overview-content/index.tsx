@@ -1,42 +1,30 @@
+import React from 'react';
+import {toast} from 'react-toastify';
+import {getMemberOverview} from '../../../services/member';
 import Category from './category';
 import TableRow from './table-row';
 
 const OverviewContent = () => {
-  const dataTable = [
-    {
-      image: '/img/overview-1.png',
-      game: 'Mobile Legends: The New Battle 2021',
-      category: 'Desktop',
-      item: 200,
-      price: 290000,
-      status: 'pending',
-    },
-    {
-      image: '/img/overview-2.png',
-      game: 'Call of Duty: Modern',
-      category: 'Desktop',
-      item: 550,
-      price: 740000,
-      status: 'success',
-    },
-    {
-      image: '/img/overview-3.png',
-      game: 'Clash of Clans',
-      category: 'Mobile',
-      item: 100,
-      price: 120000,
-      status: 'failed',
-    },
-    {
-      image: '/img/overview-4.png',
-      game: 'The Royal Game',
-      category: 'Desktop',
-      item: 225,
-      price: 200000,
-      status: 'pending',
-    },
-  ];
-  
+  const [data, setData] = React.useState([]) as any;
+  const [count, setCount] = React.useState([]) as any;
+
+  React.useEffect(() => {
+    getData();
+
+    return () => {};
+  }, []);
+
+  const getData = async () => {
+    await getMemberOverview().then((res) => {
+      if (res.error) {
+        toast.error(res.message);
+      } else {
+        setData(res.data.data);
+        setCount(res.data.count);
+      }
+    });
+  };
+
   return (
     <main className="main-wrapper">
       <div className="ps-lg-0">
@@ -47,21 +35,20 @@ const OverviewContent = () => {
           </p>
           <div className="main-content">
             <div className="row">
-              <Category icon={'/icon/ic-desktop.svg'} total={18000500}>
-                Game
-                <br />
-                Desktop
-              </Category>
-              <Category icon={'/icon/ic-mobile.svg'} total={8455000}>
-                Game
-                <br />
-                Mobile
-              </Category>
-              <Category icon={'/icon/ic-other-categories.svg'} total={5000000}>
-                Other
-                <br />
-                Categories
-              </Category>
+              {count.map((item: any, i: number) => (
+                <Category
+                  key={i}
+                  icon={
+                    item.name === 'Mobile'
+                      ? '/icon/ic-mobile.svg'
+                      : '/icon/ic-desktop.svg'
+                  }
+                  total={item.value}>
+                  Game
+                  <br />
+                  {item.name}
+                </Category>
+              ))}
             </div>
           </div>
         </div>
@@ -82,14 +69,14 @@ const OverviewContent = () => {
                 </tr>
               </thead>
               <tbody>
-                {dataTable.map((item: any, i: number) => (
+                {data.map((item: any, i: number) => (
                   <TableRow
                     key={i}
-                    image={item.image}
-                    game={item.game}
-                    category={item.category}
-                    item={item.item}
-                    price={item.price}
+                    image={item.historyVoucherTopUp?.thumbnail}
+                    game={item.historyVoucherTopUp?.gameName}
+                    category={item.historyVoucherTopUp?.Category}
+                    item={`${item.historyVoucherTopUp?.coinQty} ${item.historyVoucherTopUp?.coinName}`}
+                    price={item.value}
                     status={item.status}
                   />
                 ))}

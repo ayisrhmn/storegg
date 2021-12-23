@@ -1,8 +1,7 @@
 import React from 'react';
 import GameItem from '../../molecules/game-item';
 import {getFeaturedGame} from '../../../services/player';
-import {ToastContainer, toast} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import {toast} from 'react-toastify';
 
 const FeaturedGame = () => {
   const [gameList, setGameList] = React.useState([]) as any;
@@ -44,7 +43,6 @@ const FeaturedGame = () => {
           ))}
         </div>
       </div>
-      <ToastContainer />
     </section>
   );
 };

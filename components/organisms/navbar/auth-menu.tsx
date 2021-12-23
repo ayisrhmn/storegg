@@ -1,12 +1,44 @@
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import Cookies from 'js-cookie';
+import jwt_decode from 'jwt-decode';
+import {useRouter} from 'next/router';
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-interface Props {
-  isLogin: boolean;
-}
+const AuthMenu = () => {
+  const [isLogin, setIsLogin] = React.useState(false);
+  const [user, setUser] = React.useState({}) as any;
 
-const AuthMenu = (props: Props) => {
-  const {isLogin} = props;
+  const router = useRouter();
+
+  React.useEffect(() => {
+    getData();
+
+    return () => {};
+  }, []);
+
+  const getData = () => {
+    const token = Cookies.get('token');
+    
+    if (token) {
+      const jwtToken = atob(token);
+      const payload: any = jwt_decode(jwtToken);
+      const user = payload.player;
+
+      setIsLogin(true);
+      setUser(user);
+    }
+  };
+
+  const URL_IMAGE = process.env.NEXT_PUBLIC_IMG;
+
+  const onLogout = () => {
+    Cookies.remove('token');
+    router.push('/');
+    setIsLogin(false);
+  };
 
   return (
     <>
@@ -32,10 +64,10 @@ const AuthMenu = (props: Props) => {
               data-bs-toggle="dropdown"
               aria-expanded="false">
               <Image
-                src={'/img/avatar-1.png'}
+                src={`${URL_IMAGE}/${user.avatar}`}
                 width={40}
                 height={40}
-                alt={''}
+                className={'avatar-img'}
               />
             </a>
 
@@ -64,11 +96,14 @@ const AuthMenu = (props: Props) => {
                 </Link>
               </li>
               <li>
-                <Link href={'/sign-in'}>
-                  <a className="dropdown-item text-lg color-palette-2">
-                    Log Out
-                  </a>
-                </Link>
+                <a
+                  onClick={() => {
+                    onLogout();
+                    toast.success(`You're Logged out!`);
+                  }}
+                  className="dropdown-item text-lg color-palette-2 logout">
+                  Log Out
+                </a>
               </li>
             </ul>
           </div>

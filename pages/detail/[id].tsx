@@ -5,8 +5,7 @@ import Navbar from '../../components/organisms/navbar';
 import TopUpForm from '../../components/organisms/topup-form';
 import TopUpItem from '../../components/organisms/topup-item';
 import {getDetailVoucher} from '../../services/player';
-import {ToastContainer, toast} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import {toast} from 'react-toastify';
 
 const Detail = () => {
   const {query, isReady} = useRouter();
@@ -26,6 +25,7 @@ const Detail = () => {
         toast.error(res.message);
       } else {
         setVoucherDetail(res.data);
+        localStorage.setItem('data-item', JSON.stringify(res.data.detail));
       }
     });
   };
@@ -49,7 +49,7 @@ const Detail = () => {
                 type={'desktop'}
                 gameName={voucherDetail.detail?.gameName}
                 thumbnail={voucherDetail.detail?.thumbnail}
-                category={voucherDetail.detail?.category?.name}
+                category={voucherDetail.detail?.category.name}
               />
             </div>
             <div className="col-xl-9 col-lg-8 col-md-7 ps-md-25">
@@ -69,7 +69,6 @@ const Detail = () => {
         </div>
       </section>
       <Footer />
-      <ToastContainer />
     </>
   );
 };
