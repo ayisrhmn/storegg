@@ -11,3 +11,8 @@ MERN Stack project, for repo backend
 - React.js (Typescript)
 - Next.js
 
+## Link Demo Project
+
+<a href="https://storegg-ayisrhmn.vercel.app/">
+  <p>StoreGG - Get a New Experience in Gaming</p>
+</a>
