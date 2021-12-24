@@ -6,12 +6,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import {useRouter} from 'next/router';
 
 interface Props {
-  detail: any;
+  nominals: any;
   payment: any;
 }
 
 const TopUpForm = (props: Props) => {
-  const {detail, payment} = props;
+  const {nominals, payment} = props;
 
   const [verifyID, setVerifyID] = React.useState('');
   const [bankAccName, setBankAccName] = React.useState('');
@@ -55,7 +55,7 @@ const TopUpForm = (props: Props) => {
   };
 
   return (
-    <form action="./checkout.html" method="POST">
+    <>
       <div className="pt-md-50 pt-30">
         <div className="">
           <label
@@ -80,7 +80,7 @@ const TopUpForm = (props: Props) => {
           Nominal Top Up
         </p>
         <div className="row justify-content-between">
-          {detail?.nominals.map((item: any, i: number) => (
+          {nominals?.map((item: any, i: number) => (
             <NominalItem
               key={i}
               id={item._id}
@@ -138,10 +138,8 @@ const TopUpForm = (props: Props) => {
           onClick={onSubmit}>
           Continue
         </button>
-        {/* <button type="submit"
-                                className="btn btn-submit rounded-pill fw-medium text-white border-0 text-lg">Continue</button> */}
       </div>
-    </form>
+    </>
   );
 };
 

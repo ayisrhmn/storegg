@@ -126,8 +126,6 @@ const SignUpPhoto = () => {
                 onClick={onSubmit}>
                 Create My Account
               </button>
-              {/* <button type="submit" className="btn btn-create fw-medium text-lg text-white rounded-pill mb-16"
-                            role="button">Create My Account</button> */}
               <Link href={'/terms-conditions'}>
                 <a
                   className="btn btn-tnc text-lg color-palette-1 text-decoration-underline pt-15"

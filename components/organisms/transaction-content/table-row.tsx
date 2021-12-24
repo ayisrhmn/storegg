@@ -8,10 +8,11 @@ interface Props {
   item: string;
   price: number;
   status: 'success' | 'pending' | 'failed';
+  id: string;
 }
 
 const TableRow = (props: Props) => {
-  const {image, game, category, item, price, status} = props;
+  const {image, game, category, item, price, status, id} = props;
 
   const URL_IMG = process.env.NEXT_PUBLIC_IMG;
 
@@ -76,7 +77,7 @@ const TableRow = (props: Props) => {
         )}
       </td>
       <td>
-        <Link href={'/member/transactions/detail'}>
+        <Link href={`/member/transactions/${id}`}>
           <a className="btn btn-status rounded-pill text-sm">Details</a>
         </Link>
       </td>

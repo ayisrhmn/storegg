@@ -26,11 +26,11 @@ const CheckoutDetail = () => {
       value: data.verifyID,
       type: 'default',
     },
-    {
-      label: 'Order ID',
-      value: '#GG001',
-      type: 'default',
-    },
+    // {
+    //   label: 'Order ID',
+    //   value: '#GG001',
+    //   type: 'default',
+    // },
     {
       label: 'Item',
       value: data.nominalItem?.coinQty,

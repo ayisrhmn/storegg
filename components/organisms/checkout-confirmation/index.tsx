@@ -1,7 +1,7 @@
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
 import React from 'react';
 import {toast} from 'react-toastify';
-import { setCheckout } from '../../../services/player';
+import {setCheckout} from '../../../services/player';
 
 const CheckoutConfirmation = () => {
   const [checkbox, setCheckbox] = React.useState(false);
@@ -15,7 +15,6 @@ const CheckoutConfirmation = () => {
     const dataItem = JSON.parse(dataItemLocal);
     const dataTopUp = JSON.parse(dataTopUpLocal);
 
-
     if (!checkbox) {
       toast.error('Make sure you have made the payment');
     } else {
@@ -27,7 +26,7 @@ const CheckoutConfirmation = () => {
         name: dataTopUp.bankAccName,
         accountUser: dataTopUp.verifyID,
       };
-  
+
       await setCheckout(data).then((res) => {
         if (res.error) {
           toast.error(res.message);

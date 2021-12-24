@@ -102,8 +102,6 @@ const SignUpForm = () => {
           onClick={onSubmit}>
           Continue
         </button>
-        {/* <button type="submit" className="btn btn-sign-up fw-medium text-lg text-white rounded-pill mb-16"
-                        role="button">Continue</button> */}
         <Link href={'/sign-in'}>
           <a
             className="btn btn-sign-in fw-medium text-lg color-palette-1 rounded-pill"

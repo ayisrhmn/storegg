@@ -1,36 +1,42 @@
 import Image from 'next/image';
 import Row from './row';
 
-const TransactionDetailContent = () => {
+interface Props {
+  data: any;
+}
+
+const TransactionDetailContent = (props: Props) => {
+  const {data} = props;
+
   const purchaseDetail = [
     {
       label: 'Your Game ID',
-      value: 'masayoshizero',
+      value: data.accountUser,
       type: 'default',
     },
     {
       label: 'Order ID',
-      value: '#GG001',
+      value: `#${data._id}`,
       type: 'default',
     },
     {
       label: 'Item',
-      value: 250,
+      value: `${data.historyVoucherTopUp?.coinQty} ${data.historyVoucherTopUp?.coinName}`,
       type: 'item',
     },
     {
       label: 'Price',
-      value: 42280500,
+      value: data.historyVoucherTopUp?.price,
       type: 'price',
     },
     {
       label: 'Tax (10%)',
-      value: 4228000,
+      value: data.tax,
       type: 'price',
     },
     {
       label: 'Total',
-      value: 55000600,
+      value: data.value,
       type: 'price',
     },
   ];
@@ -38,31 +44,33 @@ const TransactionDetailContent = () => {
   const paymentInformation = [
     {
       label: 'Your Account Name',
-      value: 'Masayoshi Angga Zero',
+      value: data.name,
     },
     {
       label: 'Type',
-      value: 'Worldwide Transfer',
+      value: data.historyPayment?.type,
     },
     {
       label: 'Bank Name',
-      value: 'Mandiri',
+      value: data.historyPayment?.bankName,
     },
     {
       label: 'Bank Account Name',
-      value: 'PT Store GG Indonesia',
+      value: data.historyPayment?.accName,
     },
     {
       label: 'Bank Number',
-      value: '1800 - 9090 - 2021',
+      value: data.historyPayment?.noRek,
     },
   ];
+
+  const URL_IMG = process.env.NEXT_PUBLIC_IMG;
 
   return (
     <main className="main-wrapper">
       <div className="ps-lg-0">
         <h2 className="text-4xl fw-bold color-palette-1 mb-30">
-          Details #GG001
+          Details #{data?._id}
         </h2>
         <div className="details">
           <div className="main-content main-content-card overflow-auto">
@@ -72,7 +80,7 @@ const TransactionDetailContent = () => {
                   <div className="pe-4">
                     <div className="cropped">
                       <Image
-                        src={'/img/Thumbnail-3.png'}
+                        src={`${URL_IMG}/${data.historyVoucherTopUp?.thumbnail}`}
                         width={200}
                         height={130}
                         className={'img-fluid'}
@@ -82,16 +90,31 @@ const TransactionDetailContent = () => {
                   </div>
                   <div>
                     <p className="fw-bold text-xl color-palette-1 mb-10">
-                      Mobile Legends:
-                      <br /> The New Battle 2021
+                      {data.historyVoucherTopUp?.gameName}
                     </p>
-                    <p className="color-palette-2 m-0">Category: Mobile</p>
+                    <p className="color-palette-2 m-0">
+                      Category: {data.historyVoucherTopUp?.category}
+                    </p>
                   </div>
                 </div>
                 <div>
-                  <p className="fw-medium text-center label pending m-0 rounded-pill">
-                    Pending
-                  </p>
+                  {data.status === 'pending' && (
+                    <p className="fw-medium text-center label pending m-0 rounded-pill">
+                      Pending
+                    </p>
+                  )}
+
+                  {data.status === 'success' && (
+                    <p className="fw-medium text-center label success m-0 rounded-pill">
+                      Success
+                    </p>
+                  )}
+
+                  {data.status === 'failed' && (
+                    <p className="fw-medium text-center label failed m-0 rounded-pill">
+                      Failed
+                    </p>
+                  )}
                 </div>
               </div>
               <hr />

@@ -102,6 +102,7 @@ const TransactionContent = () => {
                     item={`${item.historyVoucherTopUp?.coinQty} ${item.historyVoucherTopUp?.coinName}`}
                     price={item.value}
                     status={item.status}
+                    id={item._id}
                   />
                 ))}
               </tbody>

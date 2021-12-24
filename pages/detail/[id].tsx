@@ -1,34 +1,24 @@
 import React from 'react';
-import {useRouter} from 'next/router';
 import Footer from '../../components/organisms/footer';
 import Navbar from '../../components/organisms/navbar';
 import TopUpForm from '../../components/organisms/topup-form';
 import TopUpItem from '../../components/organisms/topup-item';
-import {getDetailVoucher} from '../../services/player';
-import {toast} from 'react-toastify';
+import {getDetailVoucher, getFeaturedGame} from '../../services/player';
 
-const Detail = () => {
-  const {query, isReady} = useRouter();
-  const [voucherDetail, setVoucherDetail] = React.useState({}) as any;
+interface Props {
+  dataItem: any;
+  nominals: any;
+  payments: any;
+}
+
+const Detail = (props: Props) => {
+  const {dataItem, nominals, payments} = props;
 
   React.useEffect(() => {
-    if (isReady) {
-      getData(query.id);
-    }
+    localStorage.setItem('data-item', JSON.stringify(dataItem));
 
     return () => {};
-  }, [isReady]);
-
-  const getData = async (id: any) => {
-    await getDetailVoucher(id).then((res) => {
-      if (res.error) {
-        toast.error(res.message);
-      } else {
-        setVoucherDetail(res.data);
-        localStorage.setItem('data-item', JSON.stringify(res.data.detail));
-      }
-    });
-  };
+  }, []);
 
   return (
     <>
@@ -47,22 +37,22 @@ const Detail = () => {
             <div className="col-xl-3 col-lg-4 col-md-5 pb-30 pb-md-0 pe-md-25 text-md-start">
               <TopUpItem
                 type={'desktop'}
-                gameName={voucherDetail.detail?.gameName}
-                thumbnail={voucherDetail.detail?.thumbnail}
-                category={voucherDetail.detail?.category.name}
+                gameName={dataItem.gameName}
+                thumbnail={dataItem.thumbnail}
+                category={dataItem.category.name}
               />
             </div>
             <div className="col-xl-9 col-lg-8 col-md-7 ps-md-25">
               <TopUpItem
                 type={'mobile'}
-                gameName={voucherDetail.detail?.gameName}
-                thumbnail={voucherDetail.detail?.thumbnail}
-                category={voucherDetail.detail?.category?.name}
+                gameName={dataItem.gameName}
+                thumbnail={dataItem.thumbnail}
+                category={dataItem.category?.name}
               />
               <hr />
               <TopUpForm
-                detail={voucherDetail.detail}
-                payment={voucherDetail.payment}
+                nominals={nominals}
+                payment={payments}
               />
             </div>
           </div>
@@ -74,3 +64,31 @@ const Detail = () => {
 };
 
 export default Detail;
+
+export const getStaticPaths = async () => {
+  const data = await getFeaturedGame();
+
+  const paths = data.data?.map((item: any) => ({
+    params: {
+      id: item._id,
+    },
+  }));
+
+  return {
+    paths,
+    fallback: false,
+  };
+};
+
+export const getStaticProps = async ({params}: any) => {
+  const {id} = params;
+  const data = await getDetailVoucher(id);
+
+  return {
+    props: {
+      dataItem: data.data?.detail,
+      nominals: data.data?.detail?.nominals,
+      payments: data.data?.payment,
+    },
+  };
+};

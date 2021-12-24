@@ -29,3 +29,24 @@ export const getHistory = async (valParams: any) => {
     token: true,
   });
 };
+
+export const getHistoryDetail = async (id: any, token: any) => {
+  const url = `${ROOT_API}/player/history/${id}/detail`;
+
+  return callAPI({
+    url,
+    method: 'GET',
+    serverToken: token,
+  });
+};
+
+export const updateProfile = async (data: any) => {
+  const url = `${ROOT_API}/player/profile`;
+
+  return callAPI({
+    url,
+    method: 'PUT',
+    data,
+    token: true,
+  });
+};

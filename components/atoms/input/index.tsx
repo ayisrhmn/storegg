@@ -3,10 +3,13 @@ export interface Props {
   type: string;
   name: string;
   placeholder: string;
+  readOnly?: boolean;
+  value?: string;
+  onChange?: (val: any) => void;
 }
 
 const Input = (props: Props) => {
-  const {label, type, name, placeholder} = props;
+  const {label, type, name, placeholder, readOnly, value, onChange} = props;
 
   return (
     <>
@@ -22,6 +25,9 @@ const Input = (props: Props) => {
         name={name}
         aria-describedby={name}
         placeholder={placeholder}
+        readOnly={readOnly}
+        value={value}
+        onChange={onChange}
       />
     </>
   );

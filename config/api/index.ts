@@ -3,14 +3,19 @@ import Cookies from 'js-cookie';
 
 interface Props extends AxiosRequestConfig {
   token?: boolean;
+  serverToken?: string;
 }
 
 export const callAPI = async (props: Props) => {
-  const {url, method, data, token} = props;
+  const {url, method, data, token, serverToken} = props;
 
   let headers = {};
 
-  if (token) {
+  if (serverToken) {
+    headers = {
+      Authorization: `Bearer ${serverToken}`,
+    };
+  } else if (token) {
     const tokenCookies = Cookies.get('token');
 
     if (tokenCookies) {
