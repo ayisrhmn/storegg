@@ -1,17 +1,61 @@
-import Link from 'next/link';
+import React from 'react';
 import NominalItem from './nominal-item';
 import PaymentItem from './payment-item';
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {useRouter} from 'next/router';
 
 interface Props {
-  detail: any;
+  nominals: any;
   payment: any;
 }
 
 const TopUpForm = (props: Props) => {
-  const {detail, payment} = props;
+  const {nominals, payment} = props;
+
+  const [verifyID, setVerifyID] = React.useState('');
+  const [bankAccName, setBankAccName] = React.useState('');
+  const [nominalItem, setNominalItem] = React.useState({}) as any;
+  const [paymentItem, setPaymentItem] = React.useState({}) as any;
+
+  const router = useRouter();
+
+  const onNominalChange = (item: any) => {
+    setNominalItem(item);
+  };
+
+  const onPaymentChange = (payment: any, bank: any) => {
+    const data = {
+      payment,
+      bank,
+    };
+
+    setPaymentItem(data);
+  };
+
+  const onSubmit = () => {
+    if (
+      verifyID === '' ||
+      bankAccName === '' ||
+      nominalItem === {} ||
+      paymentItem === {}
+    ) {
+      toast.error('All data must be filled!');
+    } else {
+      const data = {
+        verifyID,
+        bankAccName,
+        nominalItem,
+        paymentItem,
+      };
+
+      localStorage.setItem('data-topup', JSON.stringify(data));
+      router.push('/checkout');
+    }
+  };
 
   return (
-    <form action="./checkout.html" method="POST">
+    <>
       <div className="pt-md-50 pt-30">
         <div className="">
           <label
@@ -26,6 +70,8 @@ const TopUpForm = (props: Props) => {
             name="ID"
             aria-describedby="verifyID"
             placeholder="Enter your ID"
+            value={verifyID}
+            onChange={(val) => setVerifyID(val.target.value)}
           />
         </div>
       </div>
@@ -34,13 +80,14 @@ const TopUpForm = (props: Props) => {
           Nominal Top Up
         </p>
         <div className="row justify-content-between">
-          {detail?.nominals.map((item: any, i: number) => (
+          {nominals?.map((item: any, i: number) => (
             <NominalItem
               key={i}
               id={item._id}
               coinQty={item.coinQty}
               coinName={item.coinName}
               price={item.price}
+              onChange={() => onNominalChange(item)}
             />
           ))}
           <div className="col-lg-4 col-sm-6"></div>
@@ -59,6 +106,7 @@ const TopUpForm = (props: Props) => {
                   type={pay.type}
                   bankID={bank._id}
                   bankName={bank.bankName}
+                  onChange={() => onPaymentChange(pay, bank)}
                 />
               ));
             })}
@@ -79,20 +127,19 @@ const TopUpForm = (props: Props) => {
           name="bankAccount"
           aria-describedby="bankAccount"
           placeholder="Enter your Bank Account Name"
+          value={bankAccName}
+          onChange={(val) => setBankAccName(val.target.value)}
         />
       </div>
       <div className="d-sm-block d-flex flex-column w-100">
-        <Link href={'/checkout'}>
-          <a
-            type="submit"
-            className="btn btn-submit rounded-pill fw-medium text-white border-0 text-lg">
-            Continue
-          </a>
-        </Link>
-        {/* <button type="submit"
-                                className="btn btn-submit rounded-pill fw-medium text-white border-0 text-lg">Continue</button> */}
+        <button
+          type="button"
+          className="btn btn-submit rounded-pill fw-medium text-white border-0 text-lg"
+          onClick={onSubmit}>
+          Continue
+        </button>
       </div>
-    </form>
+    </>
   );
 };
 

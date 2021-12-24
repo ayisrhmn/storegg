@@ -3,10 +3,11 @@ import cx from 'classnames';
 interface Props {
   title: string;
   active: boolean;
+  onClick: () => void;
 }
 
 const ButtonTab = (props: Props) => {
-  const {title, active} = props;
+  const {title, active, onClick} = props;
 
   const classActive = cx({
     'btn btn-status rounded-pill text-sm me-3': true,
@@ -14,9 +15,9 @@ const ButtonTab = (props: Props) => {
   });
 
   return (
-    <a data-filter="*" href="#" className={classActive}>
+    <button onClick={onClick} className={classActive}>
       {title}
-    </a>
+    </button>
   );
 };
 

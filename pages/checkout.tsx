@@ -3,6 +3,7 @@ import Link from 'next/link';
 import CheckoutItem from '../components/organisms/checkout-item';
 import CheckoutDetail from '../components/organisms/checkout-detail';
 import CheckoutConfirmation from '../components/organisms/checkout-confirmation';
+import jwt_decode from 'jwt-decode';
 
 const Checkout = () => {
   return (
@@ -11,7 +12,12 @@ const Checkout = () => {
         <div className="logo text-md-center text-start pb-50">
           <Link href={'/'}>
             <a className="">
-              <Image src={'/icon/logo.svg'} width={60} height={60} alt={'logo'} />
+              <Image
+                src={'/icon/logo.svg'}
+                width={60}
+                height={60}
+                alt={'logo'}
+              />
             </a>
           </Link>
         </div>
@@ -31,3 +37,26 @@ const Checkout = () => {
 };
 
 export default Checkout;
+
+export const getServerSideProps = async ({req}: any) => {
+  const {token} = req.cookies;
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/sign-in',
+        permanent: false,
+      },
+    };
+  }
+
+  const jwtToken = Buffer.from(token, 'base64').toString('ascii');
+  const payload: any = jwt_decode(jwtToken);
+  const user = payload.player;
+
+  return {
+    props: {
+      user,
+    },
+  };
+};

@@ -1,9 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
-import {ToastContainer, toast} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import {toast} from 'react-toastify';
 import {setSignIn} from '../../../services/auth';
 import {useRouter} from 'next/router';
+import Cookies from 'js-cookie';
 
 const SignInForm = () => {
   const [email, setEmail] = React.useState('');
@@ -32,6 +32,12 @@ const SignInForm = () => {
         if (res.error) {
           toast.error(res.message);
         } else {
+          toast.success('Sign In Successfull!');
+          const {token} = res.data;
+          const tokenBase64 = btoa(token);
+          Cookies.set('token', tokenBase64, {
+            expires: 1,
+          });
           router.push('/');
         }
       });
@@ -87,9 +93,6 @@ const SignInForm = () => {
           onClick={onSubmit}>
           Continue to Sign In
         </button>
-        {/* <button type="submit"
-                                className="btn btn-sign-in fw-medium text-lg text-white rounded-pill mb-16"
-                                role="button">Continue to Sign In</button> */}
         <Link href={'/sign-up'}>
           <a
             className="btn btn-sign-up fw-medium text-lg color-palette-1 rounded-pill"
@@ -98,7 +101,6 @@ const SignInForm = () => {
           </a>
         </Link>
       </div>
-      <ToastContainer />
     </>
   );
 };

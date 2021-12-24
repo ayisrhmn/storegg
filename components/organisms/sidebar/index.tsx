@@ -1,6 +1,10 @@
+import Image from 'next/image';
 import Profile from './profile';
 import SidebarMenu from './sidebar-menu';
 import SidebarFooter from './sidebar-footer';
+import {useRouter} from 'next/router';
+import {toast} from 'react-toastify';
+import Cookies from 'js-cookie';
 
 interface Props {
   active: 'overview' | 'transactions' | 'settings';
@@ -8,6 +12,8 @@ interface Props {
 
 const Sidebar = (props: Props) => {
   const {active} = props;
+
+  const router = useRouter();
 
   const listMenu = [
     {
@@ -46,13 +52,13 @@ const Sidebar = (props: Props) => {
       title: 'Settings',
       active: 'settings',
     },
-    {
-      icon: '/icon/ic-menu-logout.svg',
-      href: '/sign-in',
-      title: 'Log Out',
-      active: 'logout',
-    },
   ];
+
+  const onLogout = () => {
+    Cookies.remove('token');
+    router.push('/');
+  };
+
   return (
     <section className="sidebar">
       <div className="content pt-50 pb-30 ps-30">
@@ -67,6 +73,23 @@ const Sidebar = (props: Props) => {
               active={item.active === active}
             />
           ))}
+          
+          <div className={'item mb-30'}>
+            <div className="me-3">
+              <Image src={'/icon/ic-menu-logout.svg'} width={25} height={25} />
+            </div>
+            <p className="item-title m-0">
+              <a
+                className="text-lg text-decoration-none"
+                onClick={() => {
+                  onLogout();
+                  toast.success(`You're Logged out!`);
+                }}
+                style={{cursor: 'pointer'}}>
+                Log Out
+              </a>
+            </p>
+          </div>
         </div>
         <SidebarFooter />
       </div>

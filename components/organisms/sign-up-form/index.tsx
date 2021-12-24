@@ -1,8 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
-import {ToastContainer, toast} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import {toast} from 'react-toastify';
 
 const SignUpForm = () => {
   const [name, setName] = React.useState('');
@@ -103,8 +102,6 @@ const SignUpForm = () => {
           onClick={onSubmit}>
           Continue
         </button>
-        {/* <button type="submit" className="btn btn-sign-up fw-medium text-lg text-white rounded-pill mb-16"
-                        role="button">Continue</button> */}
         <Link href={'/sign-in'}>
           <a
             className="btn btn-sign-in fw-medium text-lg color-palette-1 rounded-pill"
@@ -113,7 +110,6 @@ const SignUpForm = () => {
           </a>
         </Link>
       </div>
-      <ToastContainer />
     </>
   );
 };

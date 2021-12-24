@@ -1,3 +1,5 @@
+import NumberFormat from 'react-number-format';
+
 interface Props {
   label: string;
   value: string | number;
@@ -14,9 +16,17 @@ const Row = (props: Props) => {
       <span className={`purchase-details ${classNames}`}>
         {type === 'default' && <>{value}</>}
 
-        {type === 'item' && <>{value} Diamonds</>}
+        {type === 'item' && <>{value}</>}
 
-        {type === 'price' && <>Rp {value}</>}
+        {type === 'price' && (
+          <NumberFormat
+            displayType={'text'}
+            prefix={'Rp '}
+            thousandSeparator={'.'}
+            decimalSeparator={','}
+            value={value}
+          />
+        )}
       </span>
     </p>
   );

@@ -1,10 +1,36 @@
 import axios, {AxiosRequestConfig} from 'axios';
+import Cookies from 'js-cookie';
 
-export const callAPI = async ({url, method, data}: AxiosRequestConfig) => {
+interface Props extends AxiosRequestConfig {
+  token?: boolean;
+  serverToken?: string;
+}
+
+export const callAPI = async (props: Props) => {
+  const {url, method, data, token, serverToken} = props;
+
+  let headers = {};
+
+  if (serverToken) {
+    headers = {
+      Authorization: `Bearer ${serverToken}`,
+    };
+  } else if (token) {
+    const tokenCookies = Cookies.get('token');
+
+    if (tokenCookies) {
+      const jwtToken = atob(tokenCookies);
+      headers = {
+        Authorization: `Bearer ${jwtToken}`,
+      };
+    }
+  }
+
   const res = await axios({
     url,
     method,
     data,
+    headers,
   }).catch((err) => err.response);
 
   if (res.status > 300) {
@@ -17,10 +43,11 @@ export const callAPI = async ({url, method, data}: AxiosRequestConfig) => {
     return response;
   }
 
+  const {length} = Object.keys(res.data);
   const response = {
     error: false,
     message: 'Success',
-    data: res.data.data,
+    data: length > 1 ? res.data : res.data.data,
   };
 
   return response;

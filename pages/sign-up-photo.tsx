@@ -3,8 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import {getCategory} from '../services/player';
 import {setSignUp} from '../services/auth';
-import {ToastContainer, toast} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import {toast} from 'react-toastify';
 import {useRouter} from 'next/router';
 
 const SignUpPhoto = () => {
@@ -51,11 +50,11 @@ const SignUpPhoto = () => {
       if (res.error) {
         toast.error(res.message);
       } else {
+        toast.success('Sign Up Successfull!');
         router.push('/sign-up-success');
         localStorage.removeItem('user-form');
       }
     });
-
   };
 
   return (
@@ -127,8 +126,6 @@ const SignUpPhoto = () => {
                 onClick={onSubmit}>
                 Create My Account
               </button>
-              {/* <button type="submit" className="btn btn-create fw-medium text-lg text-white rounded-pill mb-16"
-                            role="button">Create My Account</button> */}
               <Link href={'/terms-conditions'}>
                 <a
                   className="btn btn-tnc text-lg color-palette-1 text-decoration-underline pt-15"
@@ -140,7 +137,6 @@ const SignUpPhoto = () => {
           </div>
         </form>
       </div>
-      <ToastContainer />
     </section>
   );
 };

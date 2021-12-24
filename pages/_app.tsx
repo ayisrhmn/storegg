@@ -16,11 +16,26 @@ import '../styles/edit-profile.css';
 import '../styles/navbar-log-in.css';
 import type {AppProps} from 'next/app';
 import Head from 'next/head';
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function MyApp({Component, pageProps}: AppProps) {
   return (
     <>
       <Head>
+        <title>StoreGG - Get a New Experience in Gaming</title>
+        <meta
+          name="description"
+          content="Kami menyediakan jutaan cara untuk membantu players menjadi pemenang sejati"
+        />
+        <meta
+          property="og:title"
+          content="StoreGG - Get a New Experience in Gaming"
+        />
+        <meta
+          property="og:description"
+          content="Kami menyediakan jutaan cara untuk membantu players menjadi pemenang sejati"
+        />
         {/* Bootstrap CSS */}
         <link
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
@@ -50,6 +65,7 @@ function MyApp({Component, pageProps}: AppProps) {
         />
       </Head>
       <Component {...pageProps} />
+      <ToastContainer />
     </>
   );
 }

@@ -1,35 +1,55 @@
+import React from 'react';
 import Row from './row';
 
 const CheckoutDetail = () => {
+  const [data, setData] = React.useState({}) as any;
+
+  React.useEffect(() => {
+    getData();
+
+    return () => {};
+  }, []);
+
+  const getData = () => {
+    const dataLocal: any = localStorage.getItem('data-topup');
+    const dataItem = JSON.parse(dataLocal);
+
+    setData(dataItem);
+  };
+
+  const taxCalculate = data.nominalItem?.price * (10 / 100);
+  const grandTotal = data.nominalItem?.price + taxCalculate;
+
   const purchaseDetail = [
     {
       label: 'Your Game ID',
-      value: 'masayoshizero',
+      value: data.verifyID,
       type: 'default',
     },
-    {
-      label: 'Order ID',
-      value: '#GG001',
-      type: 'default',
-    },
+    // {
+    //   label: 'Order ID',
+    //   value: '#GG001',
+    //   type: 'default',
+    // },
     {
       label: 'Item',
-      value: 250,
+      value: data.nominalItem?.coinQty,
       type: 'item',
+      itemName: data.nominalItem?.coinName,
     },
     {
       label: 'Price',
-      value: 42280500,
+      value: data.nominalItem?.price,
       type: 'price',
     },
     {
       label: 'Tax (10%)',
-      value: 4228000,
+      value: taxCalculate,
       type: 'price',
     },
     {
       label: 'Total',
-      value: 55000600,
+      value: grandTotal,
       type: 'price',
     },
   ];
@@ -37,23 +57,23 @@ const CheckoutDetail = () => {
   const paymentInformation = [
     {
       label: 'Your Account Name',
-      value: 'Masayoshi Angga Zero',
+      value: data.bankAccName,
     },
     {
       label: 'Type',
-      value: 'Worldwide Transfer',
+      value: data.paymentItem?.payment?.type,
     },
     {
       label: 'Bank Name',
-      value: 'Mandiri',
+      value: data.paymentItem?.bank?.bankName,
     },
     {
       label: 'Bank Account Name',
-      value: 'PT Store GG Indonesia',
+      value: data.paymentItem?.bank?.accName,
     },
     {
       label: 'Bank Number',
-      value: '1800 - 9090 - 2021',
+      value: data.paymentItem?.bank?.noRek,
     },
   ];
 
@@ -70,6 +90,7 @@ const CheckoutDetail = () => {
             value={item.value}
             type={item.type}
             classNames={item.label === 'Total' ? 'color-palette-4' : ''}
+            itemName={item.type === 'item' ? item.itemName : undefined}
           />
         ))}
       </div>
