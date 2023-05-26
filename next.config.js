@@ -1,6 +1,6 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ['storegg-admin.herokuapp.com'],
+    domains: ['storegg-backend.ayisdev.my.id'],
   },
 };
