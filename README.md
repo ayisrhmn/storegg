@@ -13,6 +13,6 @@ MERN Stack project, for repo backend
 
 ## Link Demo Project
 
-<a href="https://storegg-ayisrhmn.vercel.app/">
+<a href="https://storegg-ayisdev.vercel.app/">
   <p>StoreGG - Get a New Experience in Gaming</p>
 </a>
